@@ -2,8 +2,8 @@ import { Button, Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
-import Cart from "../components/Cart";
-import AppContext from "../context/AppContext";
+import Cart from "@/components/Cart";
+import AppContext from "@/context/AppContext";
 import { useContext } from "react";
 
 const GET_RESTAURANT_DISHES = gql`

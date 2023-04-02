@@ -1,9 +1,9 @@
 import React from "react";
 import App from "next/app";
 import Head from "next/head";
-import Layout from "../components/Layout";
-import withData from "../lib/apollo";
-import AppContext from "../context/AppContext";
+import Layout from "@/components/common/Layout";
+import withData from "@/lib/apollo";
+import AppContext from "@/context/AppContext";
 import Cookies from "js-cookie";
 
 class MyApp extends App {

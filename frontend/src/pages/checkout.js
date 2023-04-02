@@ -1,8 +1,8 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { Col, Row } from "reactstrap";
 import { loadStripe } from "@stripe/stripe-js";
-import Cart from "../components/Cart/index";
-import CheckOutForm from "../components/Checkout/CheckOutForm";
+import Cart from "@/components/Cart/index";
+import CheckOutForm from "@/components/Checkout/CheckOutForm";
 
 const checkout = () => {
   const stripePromise = loadStripe(
