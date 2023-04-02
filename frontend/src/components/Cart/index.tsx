@@ -1,6 +1,6 @@
 import { Badge, Button, Card, CardBody, CardTitle } from "reactstrap";
 import Link from "next/link";
-import AppContext from "../../src/context/AppContext";
+import AppContext from "@/context/AppContext";
 import { useContext } from "react";
 
 const Cart = () => {

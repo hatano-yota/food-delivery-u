@@ -1,8 +1,8 @@
 import { FormGroup, Label, Input } from "reactstrap";
 import { useContext, useState } from "react";
-import CardSection from "./CardSection";
+import CardSection from "@/components/Checkout/CardSection";
 import Cookies from "js-cookie";
-import AppContext from "../../src/context/AppContext";
+import AppContext from "@/context/AppContext";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
 const CheckOutForm = () => {
