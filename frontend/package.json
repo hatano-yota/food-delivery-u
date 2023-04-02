@@ -9,6 +9,9 @@
     "@apollo/react-ssr": "^3.1.5",
     "@stripe/react-stripe-js": "^1.16.5",
     "@stripe/stripe-js": "^1.48.0",
+    "@types/node": "^18.15.11",
+    "@types/react": "^18.0.31",
+    "@types/react-dom": "^18.0.11",
     "apollo-boost": "^0.4.7",
     "apollo-link-http": "^1.5.17",
     "axios": "^0.19.2",
@@ -19,6 +22,7 @@
     "next-apollo": "^3.1.10",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "reactstrap": "^9.1.5"
+    "reactstrap": "^9.1.5",
+    "typescript": "^5.0.3"
   }
 }
