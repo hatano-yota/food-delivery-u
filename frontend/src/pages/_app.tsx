@@ -87,7 +87,7 @@ class MyApp extends App {
         headers: { Authorization: `Bearer ${token}` },
       }).then(async (res) => {
         if (!res.ok) {
-          Cookeis.remove("token");
+          Cookies.remove("token");
           this.setState({ user: null });
           return null;
         }
