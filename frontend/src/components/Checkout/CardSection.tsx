@@ -1,6 +1,12 @@
 import { CardElement } from "@stripe/react-stripe-js";
 
-const CardSection = (props) => {
+type CardSectionProps = {
+  submitOrder: () => void;
+  errorMsg: string;
+  successMsg: string;
+};
+
+const CardSection = (props: CardSectionProps) => {
   const { submitOrder, errorMsg, successMsg } = props;
   return (
     <div>
