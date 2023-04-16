@@ -5,19 +5,24 @@ import Layout from "@/components/common/Layout";
 import withData from "@/lib/apollo";
 import AppContext from "@/context/AppContext";
 import Cookies from "js-cookie";
+import { Dish, User } from "@/types/Types";
 
-class MyApp extends App {
+class MyApp extends App<{
+  user: User;
+  cart: { dishes: Dish[]; totalPrice: number };
+}> {
   state = {
-    user: null,
+    user: undefined,
     cart: { dishes: [], totalPrice: 0 },
   };
-  setUser = (user) => {
+  setUser = (user: User) => {
     this.setState({ user });
+    console.log(user);
   };
 
   // カートへ商品の追加
-  addDish = (dish) => {
-    let { dishes } = this.state.cart;
+  addDish = (dish: Dish) => {
+    let { dishes }: { dishes: Dish[] } = this.state.cart;
     const repeat = dishes.find((d) => d.id === dish.id);
     if (!repeat) {
       dish.quantity = 1;
@@ -49,7 +54,7 @@ class MyApp extends App {
   };
 
   // カートから商品を削除
-  removeDish = (dish) => {
+  removeDish = (dish: Dish) => {
     if (dish.quantity > 1) {
       this.setState(
         {
@@ -97,7 +102,7 @@ class MyApp extends App {
     }
 
     if (cart) {
-      JSON.parse(cart).forEach((dish) => {
+      JSON.parse(cart).forEach((dish: Dish) => {
         this.setState({
           cart: {
             dishes: JSON.parse(cart),

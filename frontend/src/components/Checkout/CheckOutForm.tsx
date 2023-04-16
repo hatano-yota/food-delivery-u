@@ -1,5 +1,5 @@
 import { FormGroup, Label, Input } from "reactstrap";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import CardSection from "@/components/Checkout/CardSection";
 import Cookies from "js-cookie";
 import AppContext from "@/context/AppContext";
@@ -14,7 +14,7 @@ const CheckOutForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updateData = (data[e.target.name] = e.target.value);
     setData({ ...data, updateData });
   };

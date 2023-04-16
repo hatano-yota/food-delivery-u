@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import Link from "next/link";
 import { Nav, NavItem } from "reactstrap";
 import AppContext from "@/context/AppContext";
+import Link from "next/dist/client/link";
 
 const Header = (): JSX.Element => {
   const { user, setUser } = useContext(AppContext);

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Cart from "@/components/Cart";
 import AppContext from "@/context/AppContext";
 import { useContext } from "react";
+import { Dish } from "@/types/Types";
 
 const GET_RESTAURANT_DISHES = gql`
   query ($id: ID!) {
@@ -41,7 +42,7 @@ const Restaurants = () => {
       <div style={{ margin: "25px" }}>
         <h1>{restaurant.name}</h1>
         <Row>
-          {restaurant.dishes.map((dish) => (
+          {restaurant.dishes.map((dish: Dish) => (
             <Col xs="6" sm="4" key={dish.id} style={{ padding: "0" }}>
               <Card style={{ margin: "0 10px" }}>
                 <CardImg

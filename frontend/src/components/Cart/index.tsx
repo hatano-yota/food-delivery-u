@@ -6,6 +6,7 @@ import { useContext } from "react";
 const Cart = () => {
   const appContext = useContext(AppContext);
   const { cart } = appContext;
+
   return (
     <div>
       <Card style={{ padding: "10px 5px" }}>

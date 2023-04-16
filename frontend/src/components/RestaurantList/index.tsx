@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
+import { Restaurant } from "@/types/Types";
 
 type Props = {
   search: string;
@@ -29,12 +30,12 @@ const RestaurantList = (props: Props) => {
   if (loading) return <h2>ロード中...</h2>;
 
   if (data && data.restaurants.length) {
-    const searchQuery = data.restaurants.filter((restaurant) =>
+    const searchQuery = data.restaurants.filter((restaurant: Restaurant) =>
       restaurant.name.toLowerCase().includes(props.search),
     );
     return (
       <Row>
-        {searchQuery.map((restaurant) => (
+        {searchQuery.map((restaurant: Restaurant) => (
           <Col xs="6" sm="4" key={restaurant.id}>
             <Card style={{ margin: "0 0.5rem 20px 0.5rem" }}>
               <CardImg
