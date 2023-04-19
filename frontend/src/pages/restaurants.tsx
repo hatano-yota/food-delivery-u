@@ -3,9 +3,8 @@ import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
 import Cart from "@/components/Cart";
-import AppContext from "@/context/AppContext";
-import { useContext } from "react";
 import { Dish } from "@/types/Types";
+import { addDish } from "@/hooks/useAddDish";
 
 const GET_RESTAURANT_DISHES = gql`
   query ($id: ID!) {
@@ -26,7 +25,6 @@ const GET_RESTAURANT_DISHES = gql`
 `;
 
 const Restaurants = () => {
-  const appContext = useContext(AppContext);
   const router = useRouter();
   const { loading, error, data } = useQuery(GET_RESTAURANT_DISHES, {
     variables: { id: router.query.id },
@@ -55,7 +53,7 @@ const Restaurants = () => {
                   <CardTitle>{dish.description}</CardTitle>
                 </CardBody>
                 <div className="card-footer">
-                  <Button outline color="primary" onClick={() => appContext.addDish(dish)}>
+                  <Button outline color="primary" onClick={() => addDish(dish)}>
                     + カートに追加
                   </Button>
                 </div>

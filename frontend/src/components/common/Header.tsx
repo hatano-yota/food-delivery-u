@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { Nav, NavItem } from "reactstrap";
-import AppContext from "@/context/AppContext";
-import Link from "next/dist/client/link";
+import Link from "@/components/common/Link";
+import { useRecoilState } from "recoil";
+import { userState } from "@/hooks/atom/user";
 
 const Header = (): JSX.Element => {
-  const { user, setUser } = useContext(AppContext);
+  const [user, setUser] = useRecoilState(userState)
   return (
     <header>
       <style jsx>

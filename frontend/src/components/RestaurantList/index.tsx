@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 import { Restaurant } from "@/types/Types";
+import Link from "@/components/common/Link";
 
 type Props = {
   search: string;

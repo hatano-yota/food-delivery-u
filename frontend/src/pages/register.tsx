@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import AppContext from "@/context/AppContext";
-import { registerUser } from "@/lib/auth";
+import { registerUser } from "@/hooks/useRegisterUser";
 
 const register = () => {
   const appContext = useContext(AppContext);

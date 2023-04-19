@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import AppContext from "@/context/AppContext";
-import { login } from "@/lib/auth";
+import { login } from "@/hooks/useRegisterUser";
 const Login = () => {
   const appContext = useContext(AppContext);
   const [data, setData] = useState({ identifier: "", password: "" });

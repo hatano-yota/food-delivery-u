@@ -1,11 +1,12 @@
 import { Badge, Button, Card, CardBody, CardTitle } from "reactstrap";
-import Link from "next/link";
-import AppContext from "@/context/AppContext";
-import { useContext } from "react";
+import Link from "@/components/common/Link";
+import { cartState } from "@/hooks/atom/cart";
+import { useRecoilValue } from "recoil";
+import { removeDish } from "@/hooks/useRemoveDish";
+import { addDish } from "@/hooks/useAddDish";
 
 const Cart = () => {
-  const appContext = useContext(AppContext);
-  const { cart } = appContext;
+  const cart = useRecoilValue(cartState);
 
   return (
     <div>
@@ -38,7 +39,7 @@ const Cart = () => {
                               marginLeft: 10,
                             }}
                             color="link"
-                            onClick={() => appContext.addDish(dish)}
+                            onClick={() => addDish(dish)}
                           >
                             +
                           </Button>
@@ -51,7 +52,7 @@ const Cart = () => {
                               marginLeft: 10,
                             }}
                             color="link"
-                            onClick={() => appContext.removeDish(dish)}
+                            onClick={() => removeDish(dish)}
                           >
                             -
                           </Button>
