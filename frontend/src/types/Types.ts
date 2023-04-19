@@ -16,9 +16,3 @@ export type Restaurant = {
   __typename: string;
 };
 
-export type User = {
-  id: number;
-  email: string;
-  username: string;
-  confirmed: boolean;
-};
