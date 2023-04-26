@@ -1,7 +1,12 @@
 import { atom } from "recoil";
-import { Cart, EMPTY_CART } from "@/lib/Cart";
+import { Cart } from "@/types/Types";
+
+export const DEFAULT_CART = (): Cart => ({
+  dishes: [],
+  totalPrice: 0,
+});
 
 export const cartState = atom<Cart>({
   key: "cartState",
-  default: EMPTY_CART,
+  default: DEFAULT_CART(),
 });

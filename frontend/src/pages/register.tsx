@@ -1,14 +1,15 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useSetRecoilState } from "recoil";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import AppContext from "@/context/AppContext";
 import { registerUser } from "@/hooks/useRegisterUser";
+import { userState } from "@/hooks/atom/user";
 
 const register = () => {
-  const appContext = useContext(AppContext);
+  const setUser = useSetRecoilState(userState);
   const [data, setData] = useState({ username: "", email: "", password: "" });
   const handleRegister = () => {
     registerUser(data.username, data.email, data.password)
-      .then((res) => appContext.setUser(res.data.user))
+      .then((res: any) => setUser(res.data.user))
       .catch((err) => console.log(err));
   };
 

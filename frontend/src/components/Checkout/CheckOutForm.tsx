@@ -1,43 +1,47 @@
 import { FormGroup, Label, Input } from "reactstrap";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import CardSection from "@/components/Checkout/CardSection";
 import Cookies from "js-cookie";
-import AppContext from "@/context/AppContext";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useRecoilState } from "recoil";
+import { DEFAULT_CART, cartState } from "@/hooks/atom/cart";
 
 const CheckOutForm = () => {
   const userToken = Cookies.get("token");
   const elements = useElements();
   const stripe = useStripe();
-  const appContext = useContext(AppContext);
   const [data, setData] = useState({ address: "", stripe_id: "" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [cart, setCart] = useRecoilState(cartState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updateData = (data[e.target.name] = e.target.value);
-    setData({ ...data, updateData });
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   // 注文を確定させる関数
   const submitOrder = async () => {
-    const cardElement = elements.getElement(CardElement);
-    const token = await stripe.createToken(cardElement);
+    const cardElement = elements?.getElement(CardElement);
+    const token = cardElement && (await stripe?.createToken(cardElement));
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
       method: "POST",
-      headers: userToken && {
-        Authorization: `Bearer ${userToken}`,
-      },
+      headers: userToken
+        ? {
+            Authorization: `Bearer ${userToken}`,
+          }
+        : undefined,
       body: JSON.stringify({
-        amount: Number(appContext.cart.totalPrice),
-        dishes: appContext.cart.dishes,
+        amount: Number(cart.totalPrice),
+        dishes: cart.dishes,
         address: data.address,
-        token: token.token.id,
+        token: token?.token ? token.token.id : undefined,
       }),
     });
 
     if (response.ok) {
       setSuccess("注文に成功しました");
+      setCart(DEFAULT_CART);
+      Cookies.set("cart", JSON.stringify(cart));
     } else {
       setError("注文に失敗しました");
     }

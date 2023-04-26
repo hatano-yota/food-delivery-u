@@ -1,18 +1,20 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import AppContext from "@/context/AppContext";
 import { login } from "@/hooks/useRegisterUser";
+import { useSetRecoilState } from "recoil";
+import { userState } from "@/hooks/atom/user";
+
 const Login = () => {
-  const appContext = useContext(AppContext);
-  const [data, setData] = useState({ identifier: "", password: "" });
+  const setUser = useSetRecoilState(userState);
+  const [data, setData] = useState({ identifier: false, password: "" });
   const handleLogin = () => {
     login(data.identifier, data.password)
-      .then((res) => {
-        appContext.setUser(res.data.user);
+      .then((res: any) => {
+        setUser(res.data.user);
       })
       .catch((err) => console.log(err));
   };
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 

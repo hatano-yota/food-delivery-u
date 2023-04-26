@@ -1,7 +1,14 @@
 import { atom } from "recoil";
-import { EMPTY_USER, User } from "@/lib/User";
+import { User } from "@/types/Types";
+
+const EMPTY_USER = (id: number) => ({
+  id: id,
+  email: "",
+  username: "",
+  confirmed: false,
+});
 
 export const userState = atom<User | null>({
   key: "userState",
-  default: EMPTY_USER,
+  default: null,
 });
