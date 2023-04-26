@@ -1,3 +1,15 @@
+export type User = {
+  id: number;
+  email: string;
+  username: string;
+  confirmed: boolean;
+};
+
+export type Cart = {
+  dishes: Dish[];
+  totalPrice: number;
+};
+
 export type Dish = {
   id: string;
   name: string;
@@ -15,4 +27,3 @@ export type Restaurant = {
   name: string;
   __typename: string;
 };
-
