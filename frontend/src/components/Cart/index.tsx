@@ -1,12 +1,13 @@
+import { useRecoilValue } from "recoil";
 import { Badge, Button, Card, CardBody, CardTitle } from "reactstrap";
+import MyButton from "@/components/common/Button";
 import Link from "@/components/common/Link";
 import { cartState } from "@/hooks/atom/cart";
-import { useRecoilValue } from "recoil";
-import { removeDish } from "@/hooks/useRemoveDish";
-import { addDish } from "@/hooks/useAddDish";
+import { useCart } from "@/hooks/useCart";
 
 const Cart = () => {
   const cart = useRecoilValue(cartState);
+  const { addDish, removeDish } = useCart();
 
   return (
     <div>
@@ -70,15 +71,11 @@ const Cart = () => {
                 <h5 style={{ fontWeight: 100, color: "gray" }}>合計：</h5>
                 <h3>{cart.totalPrice}円</h3>
               </Badge>
-              <div>
-                <Link href="/checkout">
-                  <Button style={{ width: "100%" }} color="primary">
-                    <a href="" style={{ color: "white" }}>
-                      注文する
-                    </a>
-                  </Button>
-                </Link>
-              </div>
+              <Link href="/checkout">
+                <MyButton style={{ width: "100%" }} color="primary">
+                  <a color="white">注文する</a>
+                </MyButton>
+              </Link>
             </div>
           </div>
         </CardBody>
