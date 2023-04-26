@@ -1,6 +1,6 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
-import App, { AppProps } from "next/app";
+import { AppProps } from "next/app";
 import Head from "next/head";
 import Layout from "@/components/common/Layout";
 import withData from "@/lib/apollo";

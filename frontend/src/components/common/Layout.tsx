@@ -40,7 +40,7 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
         totalPrice: JSON.parse(cart).totalPrice,
       });
     }
-  });
+  }, []);
 
   return (
     <div>

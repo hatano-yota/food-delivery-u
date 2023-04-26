@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
 import Cart from "@/components/Cart";
 import { Dish } from "@/types/Types";
-import { addDish } from "@/hooks/useAddDish";
+import { useCart } from "@/hooks/useCart";
 
 const GET_RESTAURANT_DISHES = gql`
   query ($id: ID!) {
@@ -29,6 +29,7 @@ const Restaurants = () => {
   const { loading, error, data } = useQuery(GET_RESTAURANT_DISHES, {
     variables: { id: router.query.id },
   });
+  const { addDish } = useCart();
 
   if (error) return <h2>レストランの読み込みに失敗しました</h2>;
 
