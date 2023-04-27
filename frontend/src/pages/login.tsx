@@ -1,14 +1,31 @@
 import { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { login } from "@/hooks/useRegisterUser";
 import { useSetRecoilState } from "recoil";
 import { userState } from "@/hooks/atom/user";
 
+type LoginInputs = {
+  email: string;
+  password: string;
+};
+
+const defaultValues = {
+  email: "",
+  password: "",
+};
+
 const Login = () => {
   const setUser = useSetRecoilState(userState);
-  const [data, setData] = useState({ identifier: false, password: "" });
+  const [data, setData] = useState({ email: "", password: "" });
+  const { control, handleSubmit } = useForm<LoginInputs>({
+    defaultValues,
+  });
+  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+    handleLogin();
+  };
   const handleLogin = () => {
-    login(data.identifier, data.password)
+    login(data.email, data.password)
       .then((res: any) => {
         setUser(res.data.user);
       })
@@ -32,20 +49,39 @@ const Login = () => {
               <fieldset>
                 <FormGroup>
                   <Label>メールアドレス：</Label>
-                  <Input
-                    type="email"
-                    name="identifier"
-                    style={{ height: 50, fontSize: "1.2rem" }}
-                    onChange={(e) => handleChange(e)}
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        type="email"
+                        name="identifier"
+                        style={{ height: 50, fontSize: "1.2rem" }}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleChange(e);
+                        }}
+                      />
+                    )}
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label>パスワード：</Label>
-                  <Input
-                    type="password"
+                  <Controller
                     name="password"
-                    style={{ height: 50, fontSize: "1.2rem" }}
-                    onChange={(e) => handleChange(e)}
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        type="password"
+                        style={{ height: 50, fontSize: "1.2rem" }}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleChange(e);
+                        }}
+                      />
+                    )}
                   />
                 </FormGroup>
                 <span>
@@ -56,9 +92,7 @@ const Login = () => {
                 <Button
                   style={{ float: "right", width: 120 }}
                   color="primary"
-                  onClick={() => {
-                    handleLogin();
-                  }}
+                  onSubmit={handleSubmit(onSubmit)}
                 >
                   ログイン
                 </Button>

@@ -21,10 +21,10 @@ export const registerUser = (username: string, email: string, password: string) 
 };
 
 // ログイン処理
-export const login = (identifier: boolean, password: string) => {
+export const login = (email: string, password: string) => {
   return new Promise((resolve, reject) => {
     axios
-      .post(`${API_URL}/auth/local`, { identifier, password })
+      .post(`${API_URL}/auth/local`, { email, password })
       .then((res) => {
         Cookie.set("token", res.data.jwt, { expires: 7 });
         resolve(res);
