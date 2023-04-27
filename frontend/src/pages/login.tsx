@@ -1,38 +1,57 @@
-import { useState } from "react";
+import { useSetRecoilState } from "recoil";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import { login } from "@/hooks/useRegisterUser";
-import { useSetRecoilState } from "recoil";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ErrorMessage } from "@hookform/error-message";
 import { userState } from "@/hooks/atom/user";
+import { login } from "@/hooks/useRegisterUser";
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required("メールアドレスを入力してください")
+    .max(60, "60文字以下で入力してください")
+    .matches(
+      /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/,
+      "メールアドレスの形式が不正です",
+    ),
+  password: yup
+    .string()
+    .required("パスワードを入力してください")
+    .max(20, "20文字以下で入力してください")
+    .min(8, "８文字以上必要です")
+    .matches(
+      /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d!@#$=%^&*()_+,.?;:'"<>{}[\]\\/\-|`~]*$/,
+      "パスワードは半角英数字で入力し、少なくとも一文字以上の小文字、大文字、数字を含んでください",
+    ),
+});
 
 type LoginInputs = {
   email: string;
   password: string;
 };
 
-const defaultValues = {
+const DEFAULT_VALUES = {
   email: "",
   password: "",
 };
 
 const Login = () => {
   const setUser = useSetRecoilState(userState);
-  const [data, setData] = useState({ email: "", password: "" });
   const { control, handleSubmit } = useForm<LoginInputs>({
-    defaultValues,
+    defaultValues: DEFAULT_VALUES,
+    resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    handleLogin();
+    handleLogin(data);
   };
-  const handleLogin = () => {
+  const handleLogin = (data: LoginInputs) => {
     login(data.email, data.password)
       .then((res: any) => {
         setUser(res.data.user);
       })
       .catch((err) => console.log(err));
-  };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   return (
@@ -52,17 +71,11 @@ const Login = () => {
                   <Controller
                     name="email"
                     control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        type="email"
-                        name="identifier"
-                        style={{ height: 50, fontSize: "1.2rem" }}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleChange(e);
-                        }}
-                      />
+                    render={({ field, formState: { errors } }) => (
+                      <>
+                        <Input {...field} type="email" style={{ height: 50, fontSize: "1.2rem" }} />
+                        <ErrorMessage errors={errors} name={field.name} />
+                      </>
                     )}
                   />
                 </FormGroup>
@@ -71,16 +84,15 @@ const Login = () => {
                   <Controller
                     name="password"
                     control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        type="password"
-                        style={{ height: 50, fontSize: "1.2rem" }}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleChange(e);
-                        }}
-                      />
+                    render={({ field, formState: { errors } }) => (
+                      <>
+                        <Input
+                          {...field}
+                          type="password"
+                          style={{ height: 50, fontSize: "1.2rem" }}
+                        />
+                        <ErrorMessage errors={errors} name={field.name} />
+                      </>
                     )}
                   />
                 </FormGroup>
@@ -92,7 +104,7 @@ const Login = () => {
                 <Button
                   style={{ float: "right", width: 120 }}
                   color="primary"
-                  onSubmit={handleSubmit(onSubmit)}
+                  onClick={handleSubmit(onSubmit)}
                 >
                   ログイン
                 </Button>

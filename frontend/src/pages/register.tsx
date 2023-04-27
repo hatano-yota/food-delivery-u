@@ -1,9 +1,32 @@
-import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { registerUser } from "@/hooks/useRegisterUser";
 import { userState } from "@/hooks/atom/user";
+import { ErrorMessage } from "@hookform/error-message";
+
+const schema = yup.object().shape({
+  username: yup.string().required("名前を入力してください").max(20, "20文字以下で入力してください"),
+  email: yup
+    .string()
+    .required("メールアドレスを入力してください")
+    .max(60, "60文字以下で入力してください")
+    .matches(
+      /^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/,
+      "メールアドレスの形式が不正です",
+    ),
+  password: yup
+    .string()
+    .required("パスワードを入力してください")
+    .max(20, "20文字以下で入力してください")
+    .min(8, "８文字以上必要です")
+    .matches(
+      /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d!@#$=%^&*()_+,.?;:'"<>{}[\]\\/\-|`~]*$/,
+      "パスワードは半角英数字で入力し、少なくとも一文字以上の小文字、大文字、数字を含んでください",
+    ),
+});
 
 type RegisterInputs = {
   username: string;
@@ -11,7 +34,7 @@ type RegisterInputs = {
   password: string;
 };
 
-const defaultValues = {
+const DEFAULT_VALUES = {
   username: "",
   email: "",
   password: "",
@@ -19,12 +42,9 @@ const defaultValues = {
 
 const register = () => {
   const setUser = useSetRecoilState(userState);
-  const [data, setData] = useState({ username: "", email: "", password: "" });
-  const {
-    control,
-    handleSubmit,
-  } = useForm<RegisterInputs>({
-    defaultValues,
+  const { control, handleSubmit } = useForm<RegisterInputs>({
+    defaultValues: DEFAULT_VALUES,
+    resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<RegisterInputs> = (data) => {
     registerUser(data.username, data.email, data.password)
@@ -49,17 +69,16 @@ const register = () => {
                   <Controller
                     name="username"
                     control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        type="text"
-                        placeholder="くのう ととのう"
-                        style={{ height: 50, fontSize: "1.2rem" }}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          setData({ ...data, username: e.target.value });
-                        }}
-                      />
+                    render={({ field, formState: { errors } }) => (
+                      <>
+                        <Input
+                          {...field}
+                          type="text"
+                          placeholder="くのう ととのう"
+                          style={{ height: 50, fontSize: "1.2rem" }}
+                        />
+                        <ErrorMessage errors={errors} name={field.name} />
+                      </>
                     )}
                   />
                 </FormGroup>
@@ -68,17 +87,16 @@ const register = () => {
                   <Controller
                     name="email"
                     control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder="dontcall@mystery.com"
-                        style={{ height: 50, fontSize: "1.2rem" }}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          setData({ ...data, email: e.target.value });
-                        }}
-                      />
+                    render={({ field, formState: { errors } }) => (
+                      <>
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder="dontcall@mystery.com"
+                          style={{ height: 50, fontSize: "1.2rem" }}
+                        />
+                        <ErrorMessage errors={errors} name={field.name} />
+                      </>
                     )}
                   />
                 </FormGroup>
@@ -87,17 +105,16 @@ const register = () => {
                   <Controller
                     name="password"
                     control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="password"
-                        style={{ height: 50, fontSize: "1.2rem" }}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          setData({ ...data, password: e.target.value });
-                        }}
-                      />
+                    render={({ field, formState: { errors } }) => (
+                      <>
+                        <Input
+                          {...field}
+                          type="password"
+                          placeholder="password"
+                          style={{ height: 50, fontSize: "1.2rem" }}
+                        />
+                        <ErrorMessage errors={errors} name={field.name} />
+                      </>
                     )}
                   />
                 </FormGroup>
@@ -109,7 +126,7 @@ const register = () => {
                 <Button
                   style={{ float: "right", width: 120 }}
                   color="primary"
-                  onSubmit={handleSubmit(onSubmit)}
+                  onClick={handleSubmit(onSubmit)}
                 >
                   登録
                 </Button>
