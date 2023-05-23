@@ -1,11 +1,11 @@
-import { useSetRecoilState } from "recoil";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { ErrorMessage } from "@hookform/error-message";
 import { userState } from "@/hooks/atom/user";
 import { login } from "@/hooks/useRegisterUser";
+import { ErrorMessage } from "@hookform/error-message";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import { useSetRecoilState } from "recoil";
+import * as yup from "yup";
 
 const schema = yup.object().shape({
   email: yup
@@ -44,9 +44,6 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    handleLogin(data);
-  };
-  const handleLogin = (data: LoginInputs) => {
     login(data.email, data.password)
       .then((res: any) => {
         setUser(res.data.user);
