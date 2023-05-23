@@ -1,8 +1,8 @@
-import { Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
-import { Restaurant } from "@/types/Types";
 import Link from "@/components/common/Link";
+import { Restaurant } from "@/types/Types";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+import { Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
 
 type Props = {
   search: string;
@@ -41,7 +41,7 @@ const RestaurantList = (props: Props) => {
               <CardImg
                 src={`${process.env.NEXT_PUBLIC_API_URL}${restaurant.image[0].url}`}
                 top={true}
-                style={{ height: 250 }}
+                style={{ height: "250px", objectFit: "cover" }}
               />
               <CardBody>
                 <CardTitle>{restaurant.name}</CardTitle>

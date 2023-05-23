@@ -1,10 +1,10 @@
-import { Button, Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
-import { useRouter } from "next/router";
 import Cart from "@/components/Cart";
-import { Dish } from "@/types/Types";
 import { useCart } from "@/hooks/useCart";
+import { Dish } from "@/types/Types";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+import { useRouter } from "next/router";
+import { Button, Card, CardBody, CardImg, CardTitle, Col, Row } from "reactstrap";
 
 const GET_RESTAURANT_DISHES = gql`
   query ($id: ID!) {
@@ -47,7 +47,7 @@ const Restaurants = () => {
                 <CardImg
                   src={`${process.env.NEXT_PUBLIC_API_URL}${dish.image.url}`}
                   top={true}
-                  style={{ height: 250 }}
+                  style={{ height: 250, objectFit: "cover" }}
                 />
                 <CardBody>
                   <CardTitle>{dish.name}</CardTitle>
